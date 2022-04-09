@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FriendIndexController;
+use App\Http\Controllers\ProfileIndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/friends', FriendIndexController::class)->name('friends');
+Route::get('/profile/{user}', ProfileIndexController::class)->name('profile');
 
 require __DIR__.'/auth.php';
