@@ -42,6 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function hasPendingFriendRequestFor(User $user)
+    {
+        return $this->pendingFriendsTo->contains($user);
+    }
+
     public function friendsTo()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')

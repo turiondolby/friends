@@ -9,11 +9,26 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('friends.store', $user) }}" method="post">
-                        @csrf
+                    @auth
+                        @if (auth()->user()->hasPendingFriendRequestFor($user))
+                            <div class="space-x-1">
+                                <span>Waiting for {{ $user->name }} to accept your friend request.</span>
 
-                        <button class="text-indigo-600">Add as friend</button>
-                    </form>
+                                <form action="" method="post" class="inline">
+                                    @csrf
+
+                                    <button class="text-indigo-600">Cancel</button>
+                                </form>
+                            </div>
+                        @else
+                            <form action="{{ route('friends.store', $user) }}" method="post">
+                                @csrf
+
+                                <button class="text-indigo-600">Add as friend</button>
+                            </form>
+                        @endif
+                    @endauth
+
                 </div>
             </div>
         </div>
