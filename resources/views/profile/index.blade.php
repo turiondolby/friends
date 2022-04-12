@@ -14,8 +14,9 @@
                             <div class="space-x-1">
                                 <span>Waiting for {{ $user->name }} to accept your friend request.</span>
 
-                                <form action="" method="post" class="inline">
+                                <form action="{{ route('friends.destroy', $user) }}" method="post" class="inline">
                                     @csrf
+                                    @method('DELETE')
 
                                     <button class="text-indigo-600">Cancel</button>
                                 </form>

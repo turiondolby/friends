@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FriendIndexController;
 use App\Http\Controllers\FriendStoreController;
 use App\Http\Controllers\ProfileIndexController;
+use App\Http\Controllers\FriendDestroyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/friends', FriendIndexController::class)->name('friends');
 Route::post('/friends/{user}', FriendStoreController::class)->name('friends.store');
+Route::delete('/friends/{user}', FriendDestroyController::class)->name('friends.destroy');
 
 Route::get('/profile/{user}', ProfileIndexController::class)->name('profile');
 

@@ -31,24 +31,47 @@
                         <div class="space-y-3">
                             <h2 class="text-lg font-semibold">Friend requests</h2>
                             <div class="space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <a href="#">Friend</a>
-                                    <div class="space-x-2">
-                                        <button>Accept</button>
-                                        <button>Reject</button>
+                                @forelse($pendingFriendsFrom as $pendingFriendFrom)
+                                    <div class="flex items-center justify-between">
+                                        <a href="#">{{ $pendingFriendFrom->name }}</a>
+                                        <div class="space-x-2">
+                                            <button>Accept</button>
+                                            <form action="{{ route('friends.destroy', $pendingFriendFrom) }}"
+                                                  method="post"
+                                                  class="inline">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="text-indigo-600">Reject</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
+                            @empty
+                                You have no friend requests.
+                            @endforelse
                         </div>
                         <div class="space-y-3">
                             <h2 class="text-lg font-semibold">Pending friend requests</h2>
                             <div class="space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <a href="#">Friend</a>
-                                    <div class="space-x-2">
-                                        <button>Cancel</button>
+                                @forelse($pendingFriendsTo as $pendingFriendTo)
+                                    <div class="flex items-center justify-between">
+                                        <a href="{{ route('profile', $pendingFriendTo) }}">{{ $pendingFriendTo->name }}</a>
+                                        <div class="space-x-2">
+                                            <form action="{{ route('friends.destroy', $pendingFriendTo) }}"
+                                                  method="post"
+                                                  class="inline">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="text-indigo-600">Cancel</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
+
+                                @empty
+                                    You have no pending friend requests.
+                                @endforelse
                             </div>
                         </div>
                     </div>
