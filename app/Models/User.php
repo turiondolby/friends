@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Staudenmeir\LaravelMergedRelations\Eloquent\HasMergedRelationships;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasMergedRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -79,5 +81,10 @@ class User extends Authenticatable
     public function acceptedFriendsFrom()
     {
         return $this->friendsFrom()->wherePivot('accepted', true);
+    }
+
+    public function friends()
+    {
+        return $this->mergedRelationWithModel(User::class, 'friends_view');
     }
 }
