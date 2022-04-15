@@ -17,7 +17,12 @@
                                     <div class="flex items-center justify-between">
                                         <a href="#">{{ $friend->name }}</a>
                                         <div class="space-x-2">
-                                            <button>Unfriend</button>
+                                            <form action="{{ route('friends.destroy', $friend) }}" method="post" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="text-indigo-600">Unfriend</button>
+                                            </form>
                                         </div>
                                     </div>
                                 @empty
@@ -40,18 +45,14 @@
                                     <div class="flex items-center justify-between">
                                         <a href="#">{{ $pendingFriendFrom->name }}</a>
                                         <div class="space-x-2">
-                                            <form action="{{ route('friends.patch', $pendingFriendFrom) }}"
-                                                  method="post"
-                                                  class="inline">
+                                            <form action="{{ route('friends.patch', $pendingFriendFrom) }}" method="post" class="inline">
                                                 @csrf
                                                 @method('PATCH')
 
                                                 <button class="text-indigo-600">Accept</button>
                                             </form>
 
-                                            <form action="{{ route('friends.destroy', $pendingFriendFrom) }}"
-                                                  method="post"
-                                                  class="inline">
+                                            <form action="{{ route('friends.destroy', $pendingFriendFrom) }}" method="post" class="inline">
                                                 @csrf
                                                 @method('DELETE')
 
@@ -71,9 +72,7 @@
                                     <div class="flex items-center justify-between">
                                         <a href="{{ route('profile', $pendingFriendTo) }}">{{ $pendingFriendTo->name }}</a>
                                         <div class="space-x-2">
-                                            <form action="{{ route('friends.destroy', $pendingFriendTo) }}"
-                                                  method="post"
-                                                  class="inline">
+                                            <form action="{{ route('friends.destroy', $pendingFriendTo) }}" method="post" class="inline">
                                                 @csrf
                                                 @method('DELETE')
 
