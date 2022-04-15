@@ -35,7 +35,15 @@
                                     <div class="flex items-center justify-between">
                                         <a href="#">{{ $pendingFriendFrom->name }}</a>
                                         <div class="space-x-2">
-                                            <button>Accept</button>
+                                            <form action="{{ route('friends.patch', $pendingFriendFrom) }}"
+                                                  method="post"
+                                                  class="inline">
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button class="text-indigo-600">Accept</button>
+                                            </form>
+
                                             <form action="{{ route('friends.destroy', $pendingFriendFrom) }}"
                                                   method="post"
                                                   class="inline">
