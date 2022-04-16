@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FriendIndexController;
 use App\Http\Controllers\FriendStoreController;
 use App\Http\Controllers\FriendPatchController;
@@ -22,9 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->middleware(['auth'])->name('dashboard');
 
 Route::get('/friends', FriendIndexController::class)->name('friends');
 Route::post('/friends/{user}', FriendStoreController::class)->name('friends.store');

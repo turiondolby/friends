@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Staudenmeir\LaravelMergedRelations\Eloquent\HasMergedRelationships;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasMergedRelationships;
+    use HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -91,5 +92,16 @@ class User extends Authenticatable
     public function friends()
     {
         return $this->mergedRelationWithModel(User::class, 'friends_view');
+    }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
+    public function friendsStatuses()
+    {
+        return $this->hasManyDeepFromRelations($this->friends(), (new User())->statuses())
+            ->latest();
     }
 }
