@@ -10,23 +10,55 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @auth
-                        @if (auth()->user()->hasPendingFriendRequestFor($user))
+                        @if (auth()->user()->isFriendsWith($user))
                             <div class="space-x-1">
-                                <span>Waiting for {{ $user->name }} to accept your friend request.</span>
+                                <span>You and {{ $user->name }} are friends</span>
 
                                 <form action="{{ route('friends.destroy', $user) }}" method="post" class="inline">
                                     @csrf
                                     @method('DELETE')
 
-                                    <button class="text-indigo-600">Cancel</button>
+                                    <button class="text-indigo-600">Unfriend</button>
                                 </form>
                             </div>
                         @else
-                            <form action="{{ route('friends.store', $user) }}" method="post">
-                                @csrf
+                            @if (auth()->user()->hasPendingFriendRequestFor($user))
+                                <div class="space-x-1">
+                                    <span>Waiting for {{ $user->name }} to accept your friend request.</span>
 
-                                <button class="text-indigo-600">Add as friend</button>
-                            </form>
+                                    <form action="{{ route('friends.destroy', $user) }}" method="post" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="text-indigo-600">Cancel</button>
+                                    </form>
+                                </div>
+                            @elseif ($user->hasPendingFriendRequestFor(auth()->user()))
+                                <div class="space-x-1">
+                                    <span>{{ $user->name }} has sent you a friend request</span>
+                                    <form action="{{ route('friends.patch', $user) }}" method="post"
+                                          class="inline">
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button class="text-indigo-600">Accept</button>
+                                    </form>
+
+                                    <form action="{{ route('friends.destroy', $user) }}" method="post"
+                                          class="inline">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="text-indigo-600">Reject</button>
+                                    </form>
+                                </div>
+                            @else
+                                <form action="{{ route('friends.store', $user) }}" method="post">
+                                    @csrf
+
+                                    <button class="text-indigo-600">Add as friend</button>
+                                </form>
+                            @endif
                         @endif
                     @endauth
 

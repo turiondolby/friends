@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->pendingFriendsTo->contains($user);
     }
 
+    public function isFriendsWith(User $user)
+    {
+        return $this->friends->contains($user);
+    }
+
     public function friendsTo()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
